@@ -120,7 +120,7 @@ from sklearn.metrics import classification_report
 from joblib import dump, load
 import os
 
-def model_eval(model, X_test=X_test_a, y_test = y_test_a, path="/content/drive/MyDrive/Fendi Mio/EMA/modelos/"):
+def model_eval(model, X_test, y_test, path="/content/drive/MyDrive/Fendi Mio/EMA/modelos/"):
   """
   Guarda el mejor modelo de un GridSearch. Predice (y pred_proba) y devuelve un ClassReport y CM. Devuelve mejores parametros.
   """
