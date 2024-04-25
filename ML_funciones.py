@@ -157,7 +157,7 @@ def model_eval(model, X_test, y_test, path="/content/drive/MyDrive/Fendi Mio/EMA
   return data
 
 
-def pred_round(threshold, preds_proba, y_test=y_test_a):
+def pred_round(threshold, preds_proba, y_test):
   """
   Definiendo un threshold y pred_proba, devuelve un CM y ClassReport
   """
