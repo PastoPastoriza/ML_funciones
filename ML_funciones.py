@@ -114,3 +114,57 @@ def window_before(table,split_window_column, condition=True, window=10):
       new_table = pd.concat([new_table, table.iloc[current_index-window+1:current_index+1]])
   print(f"Lengh of New Dataframe = {len(new_table)}")
   return new_table
+
+
+from sklearn.metrics import classification_report
+from joblib import dump, load
+import os
+
+def model_eval(model, X_test=X_test_a, y_test = y_test_a, path="/content/drive/MyDrive/Fendi Mio/EMA/modelos/"):
+  """
+  Guarda el mejor modelo de un GridSearch. Predice (y pred_proba) y devuelve un ClassReport y CM. Devuelve mejores parametros.
+  """
+  data={}
+
+  model_best = model.best_estimator_
+
+  path_join = os.path.join(path,f"{model}.joblib")
+  dump(model_best, path_join)
+
+  preds=model_best.predict(X_test)
+
+  model_best_results = classification_report(y_test,preds)
+
+  print(f"best results: {model_best_results}")
+
+  model_bestparam = lr_gs.best_params_
+
+  print(model_bestparam)
+
+  cm=confusion_matrix(y_test, preds)
+  display = ConfusionMatrixDisplay(cm)
+  display.plot()
+
+  preds_proba=model_best.predict_proba(X_test)
+  preds_proba[:5]
+
+  data["preds_proba"] = preds_proba
+  data["preds"] = preds
+  data["model_best"] = model_best
+  data["model_best_results"] = model_best_results
+  data["model_bestparam"] = model_bestparam
+
+  return data
+
+
+def pred_round(threshold, preds_proba, y_test=y_test_a):
+  """
+  Definiendo un threshold y pred_proba, devuelve un CM y ClassReport
+  """
+  preds_round = (preds_proba[:, 1] > threshold).astype(int)
+
+  cm_round=confusion_matrix(y_test, preds_round)
+  display = ConfusionMatrixDisplay(cm_round)
+  display.plot()
+  model_round_results = classification_report(y_test,preds_round)
+  return model_round_results
