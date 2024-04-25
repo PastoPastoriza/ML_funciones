@@ -137,7 +137,7 @@ def model_eval(model, X_test=X_test_a, y_test = y_test_a, path="/content/drive/M
 
   print(f"best results: {model_best_results}")
 
-  model_bestparam = lr_gs.best_params_
+  model_bestparam = model.best_params_
 
   print(model_bestparam)
 
