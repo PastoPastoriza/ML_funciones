@@ -128,7 +128,7 @@ def model_eval(model, X_test, y_test, path="/content/drive/MyDrive/Fendi Mio/EMA
 
   model_best = model.best_estimator_
 
-  path_join = os.path.join(path,f"{model}.joblib")
+  path_join = os.path.join(path,f"{model.name}.joblib")
   dump(model_best, path_join)
 
   preds=model_best.predict(X_test)
