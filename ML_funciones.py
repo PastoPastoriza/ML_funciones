@@ -156,7 +156,7 @@ def model_eval(model,model_name, X_test, y_test, path="/content/drive/MyDrive/Fe
 
   return data
 
-
+from sklearn.metrics import classification_report, confusion_matrix,ConfusionMatrixDisplay
 def pred_round(threshold, preds_proba, y_test):
   """
   Definiendo un threshold y pred_proba, devuelve un CM y ClassReport
