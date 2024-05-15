@@ -56,7 +56,7 @@ def window_before_array(table,split_window_column = "long_condition", condition=
   print(f"X_train_a.shape : {X_train_a.shape}")
   print(f"y_train_a.shape : {y_train_a.shape}")
   print(f"X_test_a.shape : {X_test_a.shape}")
-  print(f"y_test_a.shape : {X_test_a.shape}")
+  print(f"y_test_a.shape : {y_test_a.shape}")
   print()
   print(f"bincount(y_train_a) : {np.bincount(y_train_a)}")
   print(f"bincount(y_test_a) : {np.bincount(y_test_a)}")
