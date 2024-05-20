@@ -170,7 +170,7 @@ def pred_round(threshold, preds_proba, y_test):
   return model_round_results
 
 
-def date_window_before(data, train_date = "2021-01-01", valid_date = "2023-01-01",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
+def date_window_before(data, train_date = "2022-12-30", valid_date = "2023-12-30",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
   """
   Use for Machine Learning. Given a date, splits a flatten train-valid-test with a condition and window. Returns a dict with data.
   """
@@ -277,7 +277,7 @@ def date_window_before(data, train_date = "2021-01-01", valid_date = "2023-01-01
 
   return table
 
-def date_window_before_nn(data, train_date = "2021-01-01", valid_date = "2023-01-01",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
+def date_window_before_nn(data, train_date = "2022-12-30", valid_date = "2023-12-30",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
   """
   Use for NN. Given a date, splits train-valid-test with a condition and window. Returns a dict with data.
   """
