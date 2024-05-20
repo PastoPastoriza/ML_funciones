@@ -276,3 +276,75 @@ def date_window_before(data, train_date = "2021-01-01", valid_date = "2023-01-01
   print("y_test_a = table['y_test_a']")
 
   return table
+
+def date_window_before_nn(data, train_date = "2021-01-01", valid_date = "2023-01-01",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
+  """
+  Use for NN. Given a date, splits train-valid-test with a condition and window. Returns a dict with data.
+  """
+  table ={}
+
+  train = data.loc[:train_date] #o con train_index_number
+  valid = data.loc[train_date:valid_date] #o con valid_index_number
+  test = data.loc[valid_date:]
+
+  train_window = window_before(train, split_window_column=split_window_column, condition=True, window = window)
+  X_train = train_window.drop(columns=target)
+  y_train = train_window[target]
+  valid_window = window_before(valid, split_window_column=split_window_column, condition=True, window = window)
+  X_valid = valid_window.drop(columns=target)
+  y_valid = valid_window[target]
+  test_window = window_before(test, split_window_column=split_window_column, condition=True, window = window)
+  X_test = test_window.drop(columns=target)
+  y_test = test_window[target]
+
+  y_train = y_train.astype(int)
+  y_valid = y_valid.astype(int)
+  y_test = y_test.astype(int)
+
+
+  print("Creating arrays from df:")
+  X_train_a = X_train.to_numpy().astype(np.float32)
+  y_train_a = y_train.to_numpy().astype(np.float32)
+  X_valid_a = X_valid.to_numpy().astype(np.float32)
+  y_valid_a = y_valid.to_numpy().astype(np.float32)
+  X_test_a = X_test.to_numpy().astype(np.float32)
+  y_test_a = y_test.to_numpy().astype(np.float32)
+  print()
+  print(f"X_train_a.shape: {X_train_a.shape}")
+  print(f"y_train_a.shape: {y_train_a.shape}")
+  print(f"X_valid_a.shape: {X_valid_a.shape}")
+  print(f"y_valid_a.shape: {y_valid_a.shape}")
+  print(f"X_test_a.shape : {X_test_a.shape}")
+  print(f"y_test_a.shape : {X_test_a.shape}")
+  print()
+  print()
+
+  table['X_train'] = X_train
+  table['y_train'] = y_train
+  table['X_train_a'] = X_train_a
+  table['y_train_a'] = y_train_a
+  table['X_valid'] = X_valid
+  table['y_valid'] = y_valid
+  table['X_valid_a'] = X_valid_a
+  table['y_valid_a'] = y_valid_a
+  table['X_test'] = X_test
+  table['y_test'] = y_test
+  table['X_test_a'] = X_test_a
+  table['y_test_a'] = y_test_a
+  print()
+  print("helpful print:")
+  print()
+  print("X_train = table['X_train']")
+  print("y_train = table['y_train']")
+  print("X_valid = table['X_valid']")
+  print("y_valid = table['y_valid']")
+  print("X_test = table['X_test']")
+  print("y_test = table['y_test']")
+  print("X_train_a = table['X_train_a']")
+  print("y_train_a = table['y_train_a']")
+  print("X_valid_a = table['X_valid_a']")
+  print("y_valid_a = table['y_valid_a']")
+  print("X_test_a = table['X_test_a']")
+  print("y_test_a = table['y_test_a']")
+
+  return table
