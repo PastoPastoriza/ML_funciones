@@ -171,7 +171,9 @@ def pred_round(threshold, preds_proba, y_test):
 
 
 def date_window_before(data, train_date = "2021-01-01", valid_date = "2023-01-01",split_window_column = "Strategy Long Condition", condition=True, window=5, target = "Target"):
-  
+  """
+  Use for Machine Learning. Given a date, splits train-valid-test with a condition and window. Returns a dict with data.
+  """
   table ={}
 
   train = data.loc[:train_date] #o con train_index_number
