@@ -348,3 +348,30 @@ def date_window_before_nn(data, train_date = "2022-12-30", valid_date = "2023-12
   print("y_test_a = table['y_test_a']")
 
   return table
+
+import matplotlib.pyplot as plt
+# plt.style.use("fivethirtyeight")
+def plot_columns(data):
+
+  # Assuming data.columns is a list of column names
+  num_cols = len(data.columns)
+  num_rows = (num_cols + 1) // 2  # Calculate the number of rows needed
+
+  fig, axes = plt.subplots(num_rows, 2, figsize=(10, 3*num_rows))  # Create subplots with 2 columns
+
+  # Flatten axes if num_rows is 1
+  if num_rows == 1:
+      axes = [axes]
+
+  for i, column in enumerate(data.columns):
+      row_index = i // 2  # Calculate the row index for the subplot
+      col_index = i % 2   # Calculate the column index for the subplot
+      ax = axes[row_index][col_index]  # Get the appropriate axis for the subplot
+      data[column].plot(ax=ax)
+      ax.set_title(column)  # Set the title of the subplot as the column name
+      ax.set_xlabel('Index')  # Assuming you want the index on the x-axis
+      ax.set_ylabel('Values')  # Assuming the y-axis represents the values in the column
+
+  plt.tight_layout()  # Adjust layout to prevent overlapping
+  plt.show()
+
