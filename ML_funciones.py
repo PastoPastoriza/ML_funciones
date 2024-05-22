@@ -300,6 +300,9 @@ def date_window_before_nn(data, train_date = "2022-12-30", valid_date = "2023-12
   X_test = test_window.drop(columns=target)
   y_test = test_window[target]
 
+  X_train = X_train.astype(np.float32)
+  X_valid = X_valid.astype(np.float32)
+  X_test = X_test.astype(np.float32)
   y_train = y_train.astype(int)
   y_valid = y_valid.astype(int)
   y_test = y_test.astype(int)
