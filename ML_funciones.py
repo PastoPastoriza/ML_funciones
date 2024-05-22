@@ -384,4 +384,5 @@ def plot_histograms(data):
     plt.xlabel(column)
     plt.ylabel('Frequency')
     plt.grid(True)
+#sns.reset_orig()
     plt.show()
