@@ -378,7 +378,7 @@ def plot_columns(data):
 import seaborn as sns
 def plot_histograms(data):
   for column in data.columns:
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(8, 4))
     sns.histplot(data[column], bins=30, kde=True)
     plt.title(f'Histogram of {column}')
     plt.xlabel(column)
