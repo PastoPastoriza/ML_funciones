@@ -375,3 +375,13 @@ def plot_columns(data):
   plt.tight_layout()  # Adjust layout to prevent overlapping
   plt.show()
 
+import seaborn as sns
+def plot_histograms(data):
+  for column in data.columns:
+    plt.figure(figsize=(10, 6))
+    sns.histplot(data[column], bins=30, kde=True)
+    plt.title(f'Histogram of {column}')
+    plt.xlabel(column)
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
