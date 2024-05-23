@@ -392,3 +392,128 @@ def plot_histograms(data):
     plt.grid(True)
 #sns.reset_orig()
     plt.show()
+
+
+
+def window_before2(table,split_window_column, split_window_column2, condition=True, window=10):
+  """
+  Given a table and a reference column, it will creat a new dataframe with a window (default=10) rows starting the True condition of the reference column
+  """
+  print(f"Lenght of original Dataframe = {len(table)}\n")
+  new_table = pd.DataFrame(columns=table.columns)
+  for index, row in table.iterrows():
+    if row[split_window_column] == condition or row[split_window_column2] == condition :
+      current_index = table.index.get_loc(index)
+      new_table = pd.concat([new_table, table.iloc[current_index-window+1:current_index+1]])
+  print(f"Lengh of New Dataframe = {len(new_table)}")
+  return new_table
+
+def date_window_before2(data, train_date = "2022-12-30", valid_date = "2023-12-30",split_window_column = "Strategy Long Condition",split_window_column2 = "Strategy Short Condition", condition=True, window=5, target = "Target"):
+  """
+  Use for Machine Learning. Given a date, splits a flatten train-valid-test with a condition and window. Returns a dict with data.
+  """
+  table ={}
+
+  train = data.loc[:train_date] #o con train_index_number
+  valid = data.loc[train_date:valid_date] #o con valid_index_number
+  test = data.loc[valid_date:]
+
+  train_window = window_before(train, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
+  X_train = train_window.drop(columns=target)
+  y_train = train_window[target]
+  valid_window = window_before(valid, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
+  X_valid = valid_window.drop(columns=target)
+  y_valid = valid_window[target]
+  test_window = window_before(test, split_window_column=split_window_column, split_window_column2=split_window_column2, condition=True, window = window)
+  X_test = test_window.drop(columns=target)
+  y_test = test_window[target]
+
+  X_train = X_train.astype(np.float32)
+  X_valid = X_valid.astype(np.float32)
+  X_test = X_test.astype(np.float32)
+  y_train = y_train.astype(int)
+  y_valid = y_valid.astype(int)
+  y_test = y_test.astype(int)
+
+
+  print("Creating arrays from df:")
+  X_train_a = X_train.to_numpy()
+  y_train_a = y_train.to_numpy()
+  X_valid_a = X_valid.to_numpy()
+  y_valid_a = y_valid.to_numpy()
+  X_test_a = X_test.to_numpy()
+  y_test_a = y_test.to_numpy()
+  print()
+  print(f"X_train_a.shape before flatten : {X_train_a.shape}")
+  print(f"y_train_a.shape before flatten : {y_train_a.shape}")
+  print(f"X_valid_a.shape before flatten : {X_valid_a.shape}")
+  print(f"y_valid_a.shape before flatten: {y_valid_a.shape}")
+  print(f"X_test_a.shape before flatten: {X_test_a.shape}")
+  print(f"y_test_a.shape before flatten: {X_test_a.shape}")
+  print()
+  print()
+  X_train_a_len = len(X_train_a)/window
+  X_valid_a_len = len(X_valid_a)/window
+  X_test_a_len = len(X_test_a)/window
+  col_len = X_train_a.shape[1] * window
+  X_train_a_len = int(X_train_a_len)
+  X_valid_a_len = int(X_valid_a_len)
+  X_test_a_len = int(X_test_a_len)
+
+  print(f"Q of train orders: {X_train_a_len}")
+  print(f"colums x window: {col_len}")
+  print(f"Q of valid orders: {X_valid_a_len}")
+  print(f"Q of test orders : {X_test_a_len}")
+  print()
+  print()
+  print(f"Reshaping window {window} arrays:")
+
+  X_train_a = X_train_a.reshape(X_train_a_len,col_len)
+  y_train_a = y_train_a[window - 1::window]
+  X_valid_a = X_valid_a.reshape(X_valid_a_len,col_len)
+  y_valid_a = y_valid_a[window - 1::window]
+  X_test_a = X_test_a.reshape(X_test_a_len,col_len)
+  y_test_a = y_test_a[window - 1::window]
+
+  print(f"X_train_a.shape : {X_train_a.shape}")
+  print(f"y_train_a.shape : {y_train_a.shape}")
+  print(f"X_valid_a.shape : {X_valid_a.shape}")
+  print(f"y_valid_a.shape : {y_valid_a.shape}")
+  print(f"X_test_a.shape : {X_test_a.shape}")
+  print(f"y_test_a.shape : {y_test_a.shape}")
+
+
+  print()
+  print(f"bincount(y_train_a) : {np.bincount(y_train_a)}")
+  print(f"bincount(y_valid_a) : {np.bincount(y_valid_a)}")
+  print(f"bincount(y_test_a) : {np.bincount(y_test_a)}")
+
+  table['X_train'] = X_train
+  table['y_train'] = y_train
+  table['X_train_a'] = X_train_a
+  table['y_train_a'] = y_train_a
+  table['X_valid'] = X_valid
+  table['y_valid'] = y_valid
+  table['X_valid_a'] = X_valid_a
+  table['y_valid_a'] = y_valid_a
+  table['X_test'] = X_test
+  table['y_test'] = y_test
+  table['X_test_a'] = X_test_a
+  table['y_test_a'] = y_test_a
+  print()
+  print("helpful print:")
+  print()
+  print("X_train = table['X_train']")
+  print("y_train = table['y_train']")
+  print("X_valid = table['X_valid']")
+  print("y_valid = table['y_valid']")
+  print("X_test = table['X_test']")
+  print("y_test = table['y_test']")
+  print("X_train_a = table['X_train_a']")
+  print("y_train_a = table['y_train_a']")
+  print("X_valid_a = table['X_valid_a']")
+  print("y_valid_a = table['y_valid_a']")
+  print("X_test_a = table['X_test_a']")
+  print("y_test_a = table['y_test_a']")
+
+  return table
