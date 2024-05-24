@@ -418,13 +418,13 @@ def date_window_before2(data, train_date = "2022-12-30", valid_date = "2023-12-3
   valid = data.loc[train_date:valid_date] #o con valid_index_number
   test = data.loc[valid_date:]
 
-  train_window = window_before(train, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
+  train_window = window_before2(train, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
   X_train = train_window.drop(columns=target)
   y_train = train_window[target]
-  valid_window = window_before(valid, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
+  valid_window = window_before2(valid, split_window_column=split_window_column,split_window_column2=split_window_column2, condition=True, window = window)
   X_valid = valid_window.drop(columns=target)
   y_valid = valid_window[target]
-  test_window = window_before(test, split_window_column=split_window_column, split_window_column2=split_window_column2, condition=True, window = window)
+  test_window = window_before2(test, split_window_column=split_window_column, split_window_column2=split_window_column2, condition=True, window = window)
   X_test = test_window.drop(columns=target)
   y_test = test_window[target]
 
